@@ -1,0 +1,36 @@
+public class DataReader {
+ 
+    private double var1;
+    private double var2;
+    private char oper;
+    private boolean exitFlag;
+    private char exitCharacter;
+    private char resultChar;
+ 
+    public DataReader(char exitCharacter) {
+        this.exitCharacter = exitCharacter;
+        this.resultChar = '=';
+    }
+ 
+    public void read() {
+        Scanner scanner = new Scanner(System.in);
+        StringBuilder builder = new StringBuilder();
+        String text = scanner.nextLine();
+        if (text.indexOf(exitCharacter) != -1) {
+            exitFlag = true;
+            return;
+        }
+        try {
+            if ((text.charAt(text.length() - 1) != resultChar)) {
+                throw new RuntimeException();
+            }
+            text = text.substring(0, text.length() - 1);
+            String[] blocks = text.split("[+-/*]");
+            var1 = Double.parseDouble(blocks[0]);
+            oper = text.charAt(blocks[0].length());
+            var2 = Double.parseDouble(blocks[1]);
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException;
+        }
+    }
+ 
